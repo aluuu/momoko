@@ -137,6 +137,8 @@ class Poller(object):
             # closed and polling it would raise an exception from then IOLoop.
             if not isinstance(error, psycopg2.DatabaseError):
                 self._ioloop.update_handler(self._connection.fileno(), 0)
+            elif isinstance(error, psycopg2.InternalError):
+                self._connection.close()
 
             raise error
 

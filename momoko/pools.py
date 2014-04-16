@@ -78,7 +78,7 @@ class BlockingPool(object):
         if self.closed:
             raise PoolError('connection pool is closed')
         for conn in self._pool:
-            if conn.status == STATUS_READY:
+            if conn.status == STATUS_READY and conn.closed == 0:
                 return conn
         return None
 
