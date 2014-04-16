@@ -138,12 +138,12 @@ class Poller(object):
             if not isinstance(error, psycopg2.DatabaseError):
                 self._ioloop.update_handler(self._connection.fileno(), 0)
 
+            raise error
+
             if self._callbacks:
                 for callback in self._callbacks:
-                    try:
-                        callback(error)
-                    except Exception as e:
-                        print 'DBQUERY-POLLER:CALLBACK_ERROR:', e.message
+                    callback(error)
+
         else:
             if state == psycopg2.extensions.POLL_OK:
                 for callback in self._callbacks:

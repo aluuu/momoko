@@ -120,7 +120,7 @@ class DbQueryQueue(object):
                 data = getattr(cursor, command)()
                 callback(data)
             except Exception as e:
-                print 'DBQUERY-QUEUE:ERROR:', e.message
+                raise e
 
         # if queue is not empty - call poller without timeout
         if self.queue:
